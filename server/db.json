@@ -1,0 +1,28 @@
+{
+  "responses": [
+    {
+      "id": "4525ae86-0edd-41b5-9397-1ba7996f0fb6",
+      "createdAt": "2025-12-26T18:43:09.211Z",
+      "name": "dfg",
+      "loveAnswer": "like_you",
+      "wish": "breakup",
+      "relationship": "crush"
+    },
+    {
+      "id": "9366f29c-bb7f-4b91-9217-dfa6f991c674",
+      "createdAt": "2025-12-26T18:43:18.985Z",
+      "name": "dk",
+      "loveAnswer": "just_friends",
+      "wish": "all",
+      "relationship": "friend"
+    },
+    {
+      "id": "0ff80dc8-a191-4c47-bdb4-2f904e0a8da3",
+      "createdAt": "2025-12-26T18:44:06.158Z",
+      "name": "df",
+      "loveAnswer": "like_you",
+      "wish": "breakup",
+      "relationship": "crush"
+    }
+  ]
+}
