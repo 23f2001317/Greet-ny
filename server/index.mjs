@@ -7,7 +7,10 @@ import initSqlJs from 'sql.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const PORT = Number(process.env.PORT || 5174)
+const PORT = process.env.PORT || 10000
+const distDir = path.join(__dirname, '..', 'dist')
+const distIndexHtml = path.join(distDir, 'index.html')
+const shouldServeDist = process.env.NODE_ENV !== 'development' && fs.existsSync(distIndexHtml)
 
 const dbFile = path.join(__dirname, 'db.sqlite')
 
@@ -112,7 +115,25 @@ app.post('/api/responses', async (req, res) => {
   }
 })
 
+// In production on Render, serve the built Vite SPA from dist/.
+// (Never use the Vite dev server in production.)
+if (shouldServeDist) {
+  app.use(express.static(distDir))
+}
+
+// Ensure unknown API routes remain API 404s (not the SPA index.html).
+app.use('/api', (_req, res) => {
+  res.status(404).json({ ok: false, error: 'Not found' })
+})
+
+// SPA fallback: send index.html for all non-API routes.
+// Express 5 + path-to-regexp no longer accepts `'*'` as a catch-all string.
+app.get(/^\/(?!api(?:\/|$)).*/, (req, res, next) => {
+  if (!shouldServeDist) return next()
+  res.sendFile(distIndexHtml)
+})
+
 app.listen(PORT, () => {
-  console.log(`[api] listening on http://localhost:${PORT}`)
+  console.log(`[api] listening on port ${PORT}`)
   console.log(`[api] sqlite file: ${dbFile}`)
 })
